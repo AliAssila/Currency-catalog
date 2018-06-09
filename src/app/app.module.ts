@@ -4,17 +4,34 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import {HttpClientModule} from '@angular/common/http';
+import {CurrencyListComponent} from './Currency/currency-list/currency-list.component';
+import {CurrencyDetailComponent} from './Currency/currency-detail/currency-detail.component';
+import {CurrencyService, UserResolvePagingParams} from './Currency/currency.service';
+import {CurrencyDetailGuard} from './Currency/currency-guard.service';
+import {CurrencyFilterPipe} from './Currency/currency-filter.pipe';
+import {SharedModule} from './shared/SharedModule';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CurrencyListComponent,
+    CurrencyDetailComponent,
+    CurrencyFilterPipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    AppRoutingModule,
+    SharedModule,
+    NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    CurrencyDetailGuard,
+    CurrencyService,
+    UserResolvePagingParams],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

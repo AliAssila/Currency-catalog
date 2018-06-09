@@ -1,0 +1,52 @@
+<div class="container">
+  <div style="text-align:center">
+    <h1>
+      {{ pageTitle }}
+    </h1>
+  </div>
+  <div class='row'>
+    <div class="form-group">
+      <div class="input-group">
+        <input type='text' class="form-control"  placeholder="Search" [(ngModel)]='inputFilter' />
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <select class="form-control"  [(ngModel)]='typeFilter' name="listFilter">
+          <option *ngFor="let filter of listFilter"  [value]="filter.name">{{filter.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="currencies$">
+    <div class="col-6" *ngFor='let curruncy of currencies$  | currencyFilter:inputFilter:typeFilter'>
+     <div class="btn btn-lg btn-outline-info btn-block btn-wrap-text reducefontsize" (click)="goToCurrencyDetail(curruncy.id)" role="button">
+       ID : {{curruncy.id}}
+       Type : {{curruncy.attributes.currency_type}}
+       Symbol : {{curruncy.attributes.symbol}}
+      </div>
+    </div>
+    <div *ngIf="(currencies$ | currencyFilter : inputFilter:typeFilter).length === 0">
+      <div colspan="100">
+        Pas de correspondance
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currencies$">
+    <div class="row">
+      <div class="form-group">
+        <div class="input-group">
+          <select class="form-control"  [(ngModel)]='perPage' (change)="changeSize(perPage)" >
+            <option [value]='10' >10</option>
+            <option [value]='50' >50</option>
+            <option [value]='100' >100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="perPage" [maxSize]="5" [rotate]="true"  [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+    </div>
+  </div>
+
+</div>
